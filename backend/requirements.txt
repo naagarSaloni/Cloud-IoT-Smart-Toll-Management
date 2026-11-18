@@ -1,0 +1,9 @@
+
+opencv-python
+qrcode[pil]
+firebase-admin
+python-dotenv
+pyserial
+requests
+fastapi
+uvicorn

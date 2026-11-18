@@ -1,0 +1,27 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+venv/
+.venv/
+env/
+
+# Environment and Firebase secrets
+.env
+serviceAccountKey.json
+*service-account*.json
+
+# Generated QR codes
+generated_qr/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

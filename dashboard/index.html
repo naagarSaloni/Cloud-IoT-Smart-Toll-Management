@@ -1,0 +1,1043 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+
+  <title>SmartToll — Control Center</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ======================================
+       SIDEBAR
+  ======================================= -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <a href="#overview" class="brand">
+      <div class="brand-mark">S</div>
+
+      <div>
+        Smart<span class="brand-light">Toll</span>
+        <small>INTELLIGENT TOLL SYSTEM</small>
+      </div>
+    </a>
+
+    <div class="nav-label">MAIN MENU</div>
+
+    <nav>
+
+      <a class="nav-link active" href="#overview">
+        <span>⌂</span>
+        Overview
+      </a>
+
+      <a class="nav-link" href="#registerVehicle">
+        <span>＋</span>
+        Register Vehicle
+      </a>
+
+      <a class="nav-link" href="#wallet">
+        <span>◈</span>
+        Wallet Management
+      </a>
+
+      <a class="nav-link" href="#scanner">
+        <span>▦</span>
+        QR Scanner
+      </a>
+
+      <a class="nav-link" href="#vehicles">
+        <span>▣</span>
+        Vehicles
+      </a>
+
+      <a class="nav-link" href="#transactions">
+        <span>⇄</span>
+        Transactions
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="system-card">
+        <span class="pulse"></span>
+
+        <div>
+          <b>System Status</b>
+          <small id="systemStatus">Connecting to Firebase...</small>
+        </div>
+      </div>
+
+      <div class="profile">
+        <div class="avatar">A</div>
+
+        <div>
+          <b>Administrator</b>
+          <small>System Controller</small>
+        </div>
+
+        <span class="dots">•••</span>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ======================================
+       MAIN CONTENT
+  ======================================= -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        Workspace <span>/</span>
+        <b id="currentSectionName">Overview</b>
+      </div>
+
+      <div class="top-actions">
+
+        <span class="live-dot"></span>
+        <span class="live-text">SYSTEM LIVE</span>
+
+        <span class="top-date" id="today"></span>
+
+        <button class="refresh-btn" id="refreshBtn">
+          ↻ <span>Refresh</span>
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ======================================
+         OVERVIEW
+    ======================================= -->
+
+    <section class="page-heading" id="overview">
+
+      <div>
+        <div class="eyebrow">SMARTTOLL CONTROL CENTER</div>
+
+        <h1>
+          Dashboard <span>.</span>
+        </h1>
+
+        <p>
+          Monitor vehicles, toll collections and your smart toll plaza.
+        </p>
+      </div>
+
+      <div class="heading-chip">
+        <span class="pulse"></span>
+        Real-time Monitoring
+      </div>
+
+    </section>
+
+
+    <!-- METRIC CARDS -->
+
+    <section class="metrics">
+
+      <div class="metric-card">
+
+        <div class="metric-top">
+          <div class="metric-icon blue">▣</div>
+          <span class="metric-tag">VEHICLES</span>
+        </div>
+
+        <div class="metric-label">Total Registered Vehicles</div>
+
+        <div class="metric-value" id="totalVehicles">0</div>
+
+        <div class="metric-foot">
+          <span class="foot-dot blue-dot"></span>
+          All registered vehicles
+        </div>
+
+      </div>
+
+
+      <div class="metric-card">
+
+        <div class="metric-top">
+          <div class="metric-icon green">✓</div>
+          <span class="metric-tag">ACTIVE</span>
+        </div>
+
+        <div class="metric-label">Active Vehicles</div>
+
+        <div class="metric-value" id="activeVehicles">0</div>
+
+        <div class="metric-foot">
+          <span class="foot-dot green-dot"></span>
+          Currently active accounts
+        </div>
+
+      </div>
+
+
+      <div class="metric-card">
+
+        <div class="metric-top">
+          <div class="metric-icon violet">⇄</div>
+          <span class="metric-tag">ACTIVITY</span>
+        </div>
+
+        <div class="metric-label">Total Transactions</div>
+
+        <div class="metric-value" id="totalTransactions">0</div>
+
+        <div class="metric-foot">
+          <span class="foot-dot violet-dot"></span>
+          Toll and recharge records
+        </div>
+
+      </div>
+
+
+      <div class="metric-card">
+
+        <div class="metric-top">
+          <div class="metric-icon amber">₹</div>
+          <span class="metric-tag">COLLECTION</span>
+        </div>
+
+        <div class="metric-label">Total Toll Collection</div>
+
+        <div class="metric-value" id="totalCollection">₹0</div>
+
+        <div class="metric-foot">
+          <span class="foot-dot amber-dot"></span>
+          Successful toll payments
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         VEHICLE REGISTRATION
+    ======================================= -->
+
+    <section class="panel registration-panel" id="registerVehicle">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Vehicle Registration</h2>
+
+          <p>
+            Register a new vehicle and generate its unique QR code.
+          </p>
+        </div>
+
+        <span class="count-pill">NEW VEHICLE</span>
+
+      </div>
+
+
+      <form id="registerVehicleForm" class="registration-form">
+
+        <div class="registration-fields">
+
+          <div class="form-field">
+            <label for="regVehicleId">Vehicle ID</label>
+
+            <input
+              type="text"
+              id="regVehicleId"
+              placeholder="Example: VEHICLE005"
+              required
+            >
+
+            <small>Enter a unique vehicle ID.</small>
+          </div>
+
+
+          <div class="form-field">
+            <label for="regOwner">Owner Name</label>
+
+            <input
+              type="text"
+              id="regOwner"
+              placeholder="Enter owner name"
+              required
+            >
+          </div>
+
+
+          <div class="form-field">
+            <label for="regPlate">Vehicle Number</label>
+
+            <input
+              type="text"
+              id="regPlate"
+              placeholder="Example: DL01AB1234"
+              required
+            >
+          </div>
+
+
+          <div class="form-field">
+            <label for="regBalance">Initial Wallet Balance (₹)</label>
+
+            <input
+              type="number"
+              id="regBalance"
+              placeholder="Enter initial balance"
+              min="0"
+              step="1"
+              required
+            >
+          </div>
+
+        </div>
+
+
+        <div class="registration-actions">
+
+          <button
+            type="submit"
+            class="primary-btn"
+            id="registerVehicleBtn"
+          >
+            + Register Vehicle
+          </button>
+
+          <span class="form-hint">
+            A unique QR code will be generated automatically.
+          </span>
+
+        </div>
+
+      </form>
+
+
+      <!-- REGISTRATION RESULT -->
+
+      <div class="registration-result" id="registrationResult" hidden>
+
+        <div class="result-message">
+
+          <div class="result-check">✓</div>
+
+          <div>
+            <b>Vehicle Registered Successfully</b>
+
+            <p>
+              Your vehicle QR code is ready.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="qr-result">
+
+          <img
+            id="registeredVehicleQR"
+            src=""
+            alt="Registered vehicle QR code"
+          >
+
+          <div class="qr-info">
+
+            <b>Vehicle QR Code</b>
+
+            <p id="registrationDetails">
+              Your unique vehicle QR code has been generated.
+              Download it or open it in a new tab.
+            </p>
+
+            <div class="qr-buttons">
+
+              <a
+                id="downloadVehicleQR"
+                class="primary-btn download-qr"
+                href="#"
+                download
+              >
+                ↓ Download QR
+              </a>
+
+              <a
+                id="openVehicleQR"
+                class="secondary-qr-btn"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open QR in New Tab
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         WALLET MANAGEMENT
+    ======================================= -->
+
+    <section class="panel wallet-panel" id="wallet">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Wallet Management</h2>
+
+          <p>
+            Add balance to an existing registered vehicle.
+          </p>
+        </div>
+
+        <span class="count-pill">ADMIN RECHARGE</span>
+
+      </div>
+
+
+      <form id="rechargeForm">
+
+        <div class="registration-fields">
+
+          <div class="form-field">
+
+            <label for="rechargeVehicleId">
+              Select Vehicle
+            </label>
+
+            <select id="rechargeVehicleId" required>
+              <option value="">Select a registered vehicle</option>
+            </select>
+
+          </div>
+
+
+          <div class="form-field">
+
+            <label for="currentWalletBalance">
+              Current Wallet Balance
+            </label>
+
+            <input
+              type="text"
+              id="currentWalletBalance"
+              placeholder="Select a vehicle"
+              readonly
+            >
+
+          </div>
+
+
+          <div class="form-field">
+
+            <label for="rechargeAmount">
+              Recharge Amount (₹)
+            </label>
+
+            <input
+              type="number"
+              id="rechargeAmount"
+              placeholder="Enter amount"
+              min="1"
+              step="1"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="registration-actions">
+
+          <button
+            type="submit"
+            class="primary-btn"
+            id="rechargeBtn"
+          >
+            + Add Balance
+          </button>
+
+          <span class="form-hint">
+            Balance is updated directly in Firebase.
+          </span>
+
+        </div>
+
+      </form>
+
+
+      <!-- RECHARGE RESULT -->
+
+      <div id="rechargeResult" hidden style="margin-top:22px;">
+
+        <div class="result-message">
+
+          <div class="result-check">✓</div>
+
+          <div>
+            <b id="rechargeResultTitle">
+              Wallet recharged successfully!
+            </b>
+
+            <p id="rechargeResultDetails"></p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         LIVE QR SCANNER
+    ======================================= -->
+
+    <section class="panel scanner-panel" id="scanner">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Live QR Scanner</h2>
+
+          <p>
+            Scan vehicle QR codes and process toll payments automatically.
+          </p>
+        </div>
+
+        <span
+          class="count-pill"
+          id="cameraStatus"
+          hidden
+        >
+          CAMERA ACTIVE
+        </span>
+
+      </div>
+
+
+      <div class="scanner-layout">
+
+        <!-- CAMERA -->
+
+        <div class="camera-container">
+
+          <div class="camera-screen">
+
+            <video
+              id="cameraPreview"
+              autoplay
+              muted
+              playsinline
+            ></video>
+
+
+            <canvas id="qrCanvas" hidden></canvas>
+
+
+            <!-- CAMERA PLACEHOLDER -->
+
+            <div class="camera-placeholder" id="cameraPlaceholder">
+
+              <div class="camera-placeholder-icon">
+                ▦
+              </div>
+
+              <b>Camera is currently stopped</b>
+
+              <span>
+                Start the camera to scan vehicle QR codes.
+              </span>
+
+            </div>
+
+
+            <!-- SCANNER OVERLAY -->
+
+            <div class="scanner-overlay">
+
+              <div class="scan-frame"></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- CAMERA CONTROLS -->
+
+          <div class="camera-controls">
+
+            <button
+              type="button"
+              class="primary-btn"
+              id="startCameraBtn"
+            >
+              ▶ Start Camera
+            </button>
+
+
+            <button
+              type="button"
+              class="subtle-btn"
+              id="stopCameraBtn"
+              disabled
+            >
+              ■ Stop Camera
+            </button>
+
+          </div>
+
+
+          <p class="camera-help">
+            Keep the vehicle QR code inside the scanning frame.
+            After a successful scan, remove the previous QR before
+            presenting the next vehicle.
+          </p>
+
+        </div>
+
+
+        <!-- SCAN INFORMATION -->
+
+        <div class="scan-information">
+
+
+          <div class="scan-status-card">
+
+            <small>SCANNER STATUS</small>
+
+            <b id="cameraScannerStatus">
+              CAMERA STOPPED
+            </b>
+
+            <p id="scanMessage" class="scan-message">
+              Camera is stopped. Click Start Camera to begin scanning.
+            </p>
+
+          </div>
+
+
+          <!-- LAST SCAN RESULT -->
+
+          <div class="scan-result-card">
+
+            <div class="eyebrow">
+              LATEST SCAN RESULT
+            </div>
+
+
+            <div class="scan-result-row">
+
+              <span>Vehicle ID</span>
+
+              <b id="scanVehicleId">
+                —
+              </b>
+
+            </div>
+
+
+            <div class="scan-result-row">
+
+              <span>Payment Status</span>
+
+              <b id="scanPaymentStatus">
+                WAITING
+              </b>
+
+            </div>
+
+
+            <div class="scan-result-row">
+
+              <span>Toll Amount</span>
+
+              <b id="scanTollAmount">
+                ₹0
+              </b>
+
+            </div>
+
+
+            <div class="scan-result-row">
+
+              <span>Remaining Balance</span>
+
+              <b id="scanRemainingBalance">
+                —
+              </b>
+
+            </div>
+
+
+            <div class="scan-result-row">
+
+              <span>Transaction ID</span>
+
+              <b id="scanTransactionId">
+                —
+              </b>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         VEHICLES AND GATE MONITOR
+    ======================================= -->
+
+    <section class="content-grid" id="vehicles">
+
+
+      <!-- VEHICLE TABLE -->
+
+      <div class="panel vehicle-panel">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Registered Vehicles</h2>
+
+            <p>
+              Manage and monitor all registered vehicles.
+            </p>
+          </div>
+
+          <span class="count-pill" id="vehicleCount">
+            0 records
+          </span>
+
+        </div>
+
+
+        <div class="table-tools">
+
+          <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+              type="search"
+              id="vehicleSearch"
+              placeholder="Search vehicle, owner or number..."
+            >
+
+          </div>
+
+
+          <button
+            type="button"
+            class="subtle-btn"
+            id="vehicleRefresh"
+          >
+            ↻ Refresh
+          </button>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>VEHICLE</th>
+                <th>OWNER</th>
+                <th>WALLET BALANCE</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+
+            <tbody id="vehicleTable">
+
+              <tr>
+                <td colspan="4" class="empty">
+                  Loading vehicles...
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- GATE MONITOR -->
+
+      <div class="panel side-panel">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Gate Monitor</h2>
+
+            <p>
+              Live toll plaza system overview.
+            </p>
+          </div>
+
+          <div class="live-pill">
+            <i></i>
+            MONITOR
+          </div>
+
+        </div>
+
+
+        <!-- GATE VISUAL -->
+
+        <div class="gate-visual">
+
+          <div class="road">
+
+            <div class="road-line"></div>
+
+            <div class="car">🚗</div>
+
+            <div class="gate-post"></div>
+
+            <div class="barrier"></div>
+
+          </div>
+
+
+          <div class="gate-caption">
+
+            <b>Smart Toll Plaza</b>
+
+            <span id="gateStatus">
+              UNKNOWN
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- GATE STATS -->
+
+        <div class="gate-stats">
+
+          <div>
+            <small>Camera Scanner</small>
+
+            <b
+              id="scannerStatus"
+              class="status-badge inactive"
+            >
+              STOPPED
+            </b>
+          </div>
+
+
+          <div>
+            <small>Last Vehicle</small>
+
+            <b id="lastVehicle">
+              None
+            </b>
+          </div>
+
+
+          <div>
+            <small>Last Payment</small>
+
+            <b id="paymentStatus" class="status-badge inactive">
+              WAITING
+            </b>
+          </div>
+
+
+          <div>
+            <small>Gate Status</small>
+
+            <b id="gateStatusText">
+              UNKNOWN
+            </b>
+          </div>
+
+        </div>
+
+
+        <!-- LAST TRANSACTION -->
+
+        <div class="monitor-transaction">
+
+          <small>LAST TRANSACTION</small>
+
+          <p id="lastTransaction">
+            No transaction recorded yet.
+          </p>
+
+        </div>
+
+
+        <div class="monitor-updated">
+
+          <span>LAST UPDATED</span>
+
+          <b id="lastUpdated">
+            Not updated yet
+          </b>
+
+        </div>
+
+
+        <div class="notice">
+
+          <span>ⓘ</span>
+
+          <p>
+            Gate hardware operation depends on the Arduino connection.
+            The dashboard displays the latest status received from
+            the backend.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         TRANSACTION HISTORY
+    ======================================= -->
+
+    <section class="panel transactions-panel" id="transactions">
+
+      <div class="panel-head">
+
+        <div>
+          <h2>Transaction History</h2>
+
+          <p>
+            View toll deductions and wallet recharge activity.
+          </p>
+        </div>
+
+        <span class="count-pill" id="transactionCount">
+          0 records
+        </span>
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>TRANSACTION ID</th>
+              <th>VEHICLE ID</th>
+              <th>TYPE</th>
+              <th>AMOUNT</th>
+              <th>STATUS</th>
+              <th>TIMESTAMP</th>
+            </tr>
+
+          </thead>
+
+
+          <tbody id="transactionTable">
+
+            <tr>
+              <td colspan="6" class="empty">
+                Loading transactions...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+
+    <footer>
+
+      <span>
+        © 2026 <b>SmartToll</b> — Intelligent Toll Management System
+      </span>
+
+      <span>
+        Cloud IoT Based QR Toll Plaza
+      </span>
+
+    </footer>
+
+  </main>
+
+
+  <!-- ======================================
+       TOAST NOTIFICATION
+  ======================================= -->
+
+  <div class="toast" id="toast"></div>
+
+
+  <!-- ======================================
+       QR SCANNER LIBRARY
+  ======================================= -->
+
+  <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+
+  <!-- DASHBOARD JAVASCRIPT -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
